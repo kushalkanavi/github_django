@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+	</title>
+</head>
+<body>
+	<center>
+		<h1>Welocme to Home page</h1>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+		<form action="{%url 'intro:addUser' %}" method="POST">
+			{% csrf_token %}
+			<label>Add User : </label>
+			<input type="text" name="add_user" placeholder="Enter Username of GitHub User to add to database" style="width:275px;">
+			<input type="Submit" name="" value="ADD">
+		</form>
+
+	<br>
+	<br>
+
+		<form action="" method="POST">
+			{% csrf_token %}
+			<label>Search User : </label>
+			<input id="search_text" type="text" name="search" placeholder="Enter API Params to Search for User" style="width:275px; text-align:center;">
+			<input type="Submit" value="Search" style="margin-right: 20px;"/>
+			<br>
+			Example:email, blog, company, location, bio
+		</form>
+	</center>
+
+	{{ user }}
+</body>
+</html>
