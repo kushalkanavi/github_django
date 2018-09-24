@@ -6,6 +6,9 @@ from .models import gitHubAPI
 import requests
 import json
 import urllib
+from django.utils import timezone
+import datetime
+# from datetime import datetime
 
 from django.db.models import Q
 from django.contrib import messages
@@ -57,7 +60,7 @@ class addUser(View):
 			following 			=	data['following'],
 			created_at			=	data['created_at'],
 			updated_at			=	data['updated_at'],
-
+			added_on			=	timezone.now()
 			)
 
 		return render(request,'apiapp/template1.html',{'user':user,})
@@ -81,6 +84,19 @@ class searchUser(View):
 		return render(request,'apiapp/template1.html')
 class adminReport(View):
 	def get(self, request, *args, **kwargs):
-		user_id = gitHubAPI.objects.filter(user_id=1).count()
-		return render(request,'apiapp/adminreport.html',{'user':user_id,})
+		d = gitHubAPI.objects.filter(added_on__icontains=datetime.date.today()).count()
+
+		month = datetime.datetime.today() -  datetime.timedelta(30)
+		m = gitHubAPI.objects.filter(added_on__range=[datetime.datetime.today(), month]).count()
+
+		year = datetime.datetime.today() -  datetime.timedelta(365)
+		y = gitHubAPI.objects.filter(added_on__range=[datetime.datetime.today(), month]).count()
+
+		data = {'day' : d,
+				'month' : m,
+				'year'	: y,
+
+		}
+		
+		return render(request,'apiapp/adminreport.html',data)
 

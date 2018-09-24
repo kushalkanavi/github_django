@@ -36,6 +36,7 @@ class gitHubAPI(models.Model):
 	following 				=	models.IntegerField(null=True)
 	created_at				=	models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
 	updated_at				=	models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
+	added_on				=	models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
 
 
 	def __str__(self):
