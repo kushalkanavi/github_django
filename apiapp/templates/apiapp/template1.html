@@ -19,10 +19,10 @@
 			<input type="Submit" name="" value="ADD">
 		</form>
 
-	<br>
-	<br>
+		<br>
+		<br>
 
-		<form action="" method="POST">
+		<form action="{%url 'intro:searchUser' %}" method="POST">
 			{% csrf_token %}
 			<label>Search User : </label>
 			<input id="search_text" type="text" name="search" placeholder="Enter API Params to Search for User" style="width:275px; text-align:center;">
@@ -32,6 +32,18 @@
 		</form>
 	</center>
 
-	{{ user }}
+	<a href="{%url 'intro:index' %}"><input type="button" name="" value="Refreash"></a>
+	<a href="{%url 'intro:adminReport' %}"><input type="button" name="" value="Admin Report"></a>
+
+	{% if srch %} {% for s in srch %}
+	<table border="0" style="border-collapse: collapse; width: 25%;">
+		<tbody>
+			<tr>
+				<td style="width: 50%; text-align: center;"><h4>{{ s.login }}</h4></td>
+			</tr>
+		</tbody>
+	</table>
+	{% endfor %} {% endif %}
+
 </body>
 </html>

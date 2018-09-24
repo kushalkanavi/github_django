@@ -7,6 +7,9 @@ import requests
 import json
 import urllib
 
+from django.db.models import Q
+from django.contrib import messages
+
 class index(View):
 	def get(self, request, *args, **kwargs):
 		return render(request,'apiapp/template1.html')
@@ -59,19 +62,25 @@ class addUser(View):
 
 		return render(request,'apiapp/template1.html',{'user':user,})
 
-def post(self, request, *args, **kwargs):
-	if request.method == 'POST':
-		srch  = request.POST.get('search')
+class searchUser(View):
+	def post(self, request, *args, **kwargs):
+		if request.method == 'POST':
+			srch  = request.POST.get('search')
 
-		if srch:
-			match = gitHubAPI.objects.filter(Q(login = srch) | Q(user_id__icontains = srch))
+			if srch:
+				match = gitHubAPI.objects.filter(Q(login = srch) | Q(user_id__icontains = srch) | Q(email__icontains = srch) | Q(blog__icontains = srch) | Q(company__icontains = srch) | Q(location__icontains = srch) | Q(bio__icontains = srch))
 
-			if match:
-				return render(request,'apiapp/template1.html',{'srch':match})
+				if match:
+					return render(request,'apiapp/template1.html',{'srch':match})
+				else:
+					messages.error(request,'No Result Found.')
+
 			else:
-				messages.error(request,'No Result Found.')
+				return render(request,'apiapp/template1.html')
 
-		else:
-			return render(request,'apiapp/template1.html')
+		return render(request,'apiapp/template1.html')
+class adminReport(View):
+	def get(self, request, *args, **kwargs):
+		user_id = gitHubAPI.objects.filter(user_id=1).count()
+		return render(request,'apiapp/adminreport.html',{'user':user_id,})
 
-	return render(request,'apiapp/template1.html')

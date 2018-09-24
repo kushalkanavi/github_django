@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # url(r'^admin/admin_report/$', 'my_custom_admin_app.views.special_admin_page'),
 
     url(r'^', include('apiapp.urls',namespace='intro')),
 ]
